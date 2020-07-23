@@ -28,18 +28,22 @@ console.time('[doSequentialTasks]');
 doSequentialTasks([
   () => createTask('Task 1', 5000),
   () => createTask('Task 2', 1000),
-]).then(() => {
-  console.timeEnd('[doSequentialTasks]');
-});
+])
+  .catch((e) => console.error(e))
+  .finally(() => {
+    console.timeEnd('[doSequentialTasks]');
+  });
 
 console.time('[doParallelTasks]');
 doParallelTasks([
   () => createTask(`Task 1'`, 5000),
   () => createTask(`Task 2'`, 1000),
-]).then(() => {
-  console.timeEnd('[doParallelTasks]');
-  console.log('\n');
-});
+])
+  .catch((e) => console.error(e))
+  .finally(() => {
+    console.timeEnd('[doParallelTasks]');
+    console.log('\n');
+  });
 
 /**
  * The same: the order is preserved.
