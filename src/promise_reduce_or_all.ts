@@ -1,4 +1,6 @@
-const createTask = (name, time) =>
+type TaskMaker = () => Promise<void>;
+
+const createTask = (name: string, time: number): Promise<void> =>
   new Promise((resolve) =>
     setTimeout(() => {
       console.log(`Done task "${name}" in "${time}" ms.`);
@@ -8,17 +10,15 @@ const createTask = (name, time) =>
 
 /**
  * Do parallel tasks
- * @param {(() => Promise<any>)[]} taskMakers
  */
-const doParallelTasks = (taskMakers) => {
+const doParallelTasks = (taskMakers: TaskMaker[]) => {
   return Promise.all(taskMakers.map((taskMaker) => taskMaker()));
 };
 
 /**
  * Do sequential tasks
- * @param {(() => Promise<any>)[]} taskMakers
  */
-const doSequentialTasks = (taskMakers) => {
+const doSequentialTasks = (taskMakers: TaskMaker[]) => {
   return taskMakers.reduce((prev, taskMaker) => {
     return prev.then(() => taskMaker());
   }, Promise.resolve());
